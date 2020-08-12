@@ -15,9 +15,8 @@ from models.review import Review
 classes = {'State': State,
            'City': City,
            'User': User,
-           'Place': Place,
-           'Amenity': Amenity,
-           'Review': Review}
+           'Place': Place}
+
 
 class DBStorage:
     """return a dictionary
