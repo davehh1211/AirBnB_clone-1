@@ -13,6 +13,7 @@ class BaseModel:
     id = Column(String(60), unique=True, primary_key=True, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
     update_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
+
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if not kwargs:
@@ -48,7 +49,13 @@ class BaseModel:
         dictionary = {}
         dictionary.update(self.__dict__)
         dictionary.update({'__class__':
-                          (str(type(self)).split('.')[-1]).split('\'')[0]})
+                           (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
+        for key, value in dictionary.items():
+            if key is '_sa_instance_state':
+                del dictionary[key]
         return dictionary
+
+    def delete(self):
+        storage.delete(self)
