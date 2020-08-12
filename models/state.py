@@ -11,11 +11,13 @@ STORAGE = getenv("HBNB_TYPE_STORAGE")
 
 class State(BaseModel, Base):
     """ State class """
+    __tablename__ = 'states'
     if STORAGE == "db":
-        __tablename__ = 'states'
         name = Column(String(128), nullable=False)
         cities = relationship(
-            'City', backref='state', cascade="all, delete-orphan")
+            'City', backref='states', cascade="all, delete-orphan")
+    else:
+        name = ""
 
         @property
         def cities(self):
@@ -26,5 +28,3 @@ class State(BaseModel, Base):
                 if value.state_id == self.id:
                     list_city.append(value)
             return list_city
-    else:
-        name = ""
