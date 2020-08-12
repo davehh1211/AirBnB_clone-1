@@ -1,4 +1,9 @@
 #!/usr/bin/python3
+"""[summary]
+
+Returns:
+    [type]: [description]
+"""
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from os import getenv
@@ -28,6 +33,8 @@ class DBStorage:
     __session = None
 
     def __init__(self):
+        """[summary]
+        """
         USER = getenv('HBNB_MYSQL_USER')
         PASSWORD = getenv('HBNB_MYSQL_PWD')
         HOST = getenv('HBNB_MYSQL_HOST')
@@ -42,6 +49,14 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
+        """[summary]
+
+        Args:
+            cls ([type], optional): [description]. Defaults to None.
+
+        Returns:
+            [type]: [description]
+        """
         dict_new = {}
         if cls is None:
             for cla in classes:
@@ -61,16 +76,30 @@ class DBStorage:
         return dict_new
 
     def new(self, obj):
+        """[summary]
+
+        Args:
+            obj ([type]): [description]
+        """
         self.__session.add(obj)
 
     def save(self):
+        """[summary]
+        """
         self.__session.commit()
 
     def delete(self, obj=None):
+        """[summary]
+
+        Args:
+            obj ([type], optional): [description]. Defaults to None.
+        """
         if obj is None:
             self.__session.detele(obj)
 
     def reload(self):
+        """[summary]
+        """
         Base.metadata.create_all(self.__engine)
         session_weak = sessionmaker(bind=self.__engine, expire_on_commit=False)
         self.__session = scoped_session(session_weak)

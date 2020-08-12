@@ -64,5 +64,7 @@ class BaseModel:
         return dictionary
 
     def delete(self):
+        """[summary]
+        """
         from models import storage
         storage.delete(self)
