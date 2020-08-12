@@ -45,26 +45,7 @@ test_db_storage.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
-    # def test_db_storage_module_docstring(self):
-    #     """Test for the db_storage.py module docstring"""
-    #     self.assertIsNot(db_storage._doc_, None,
-    #                      "db_storage.py needs a docstring")
-    #     self.assertTrue(len(db_storage._doc_) >= 1,
-    #                     "db_storage.py needs a docstring")
 
-    # def test_db_storage_class_docstring(self):
-    #     """Test for the DBStorage class docstring"""
-    #     self.assertIsNot(DBStorage._doc_, None,
-    #                      "DBStorage class needs a docstring")
-    #     self.assertTrue(len(DBStorage._doc_) >= 1,
-    #                     "DBStorage class needs a docstring")
-    # def test_dbs_func_docstrings(self):
-    #     """Test for the presence of docstrings in DBStorage methods"""
-    #     for func in self.dbs_f:
-    #         self.assertIsNot(func[1]._doc_, None,
-    #                          "{:s} method needs a docstring".format(func[0]))
-    #         self.assertTrue(len(func[1]._doc_) >= 1,
-    #                         "{:s} method needs a docstring".format(func[0]))
 # class TestFileStorage(unittest.TestCase):
 #     """Test the FileStorage class"""
 #     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
