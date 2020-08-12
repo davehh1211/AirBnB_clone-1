@@ -47,31 +47,40 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """[summary]
-
-        Args:
-            cls ([type], optional): [description]. Defaults to None.
-
-        Returns:
-            [type]: [description]
-        """
-        dict_new = {}
-        if cls is None:
-            for cla in classes:
-                obj = self.__session.query(classes[cla])
-                for itm in obj:
-                    delattr(itm, '_sa_instance_state')
-                    key = itm.__class__.__name__ + '.' + itm.id
-                    dict_new[key] = itm
+        """query on the current database session"""
+        # dict_new = {}
+        # if cls is None:
+        #     for cla in classes:
+        #         obj = self.__session.query(classes[cla])
+        #         for itm in obj:
+        #             delattr(itm, '_sa_instance_state')
+        #             key = itm.__class__.__name__ + '.' + itm.id
+        #             dict_new[key] = itm
+        # else:
+        #     for cla in classes:
+        #         if cla == cls:
+        #             obj = self.__session.query(classes[cla])
+        #             for itm in obj:
+        #                 delattr(itm, '_sa_instance_state')
+        #                 key = itm.__class__.__name__ + '.' + itm.id
+        #                 dict_new[key] = itm
+        # return dict_new
+        dic = {}
+        if cls:
+            if isinstance(cls, str):
+                for ins in self.__session.query(eval(cls)).all():
+                    dic[ins.__class__.__name__ + '.' + ins.id] = ins
+            else:
+                for ins in self.__session.query(cls).all():
+                    dic[ins.__class__.__name__ + '.' + ins.id] = ins
+ 
         else:
-            for cla in classes:
-                if cla == cls:
-                    obj = self.__session.query(classes[cla])
-                    for itm in obj:
-                        delattr(itm, '_sa_instance_state')
-                        key = itm.__class__.__name__ + '.' + itm.id
-                        dict_new[key] = itm
-        return dict_new
+            holder_list = [State, City, User, Place, Review, Amenity]
+            for classes in holder_list:
+                for ins in self.__session.query(classes).all():
+                    dic[ins.__class__.__name__ + '.' + ins.id] = ins
+        return dic
+
 
     def new(self, obj):
         """[summary]
