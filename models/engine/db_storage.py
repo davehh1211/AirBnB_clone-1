@@ -44,36 +44,34 @@ class DBStorage:
 
     def all(self, cls=None):
         """[summary]"""
-        dict_new = {}
+        show = {}
         classes = {
             'State': State, 'City': City,
             'Amenity': Amenity, 'User': User,
             'Place': Place, 'Review': Review}
-        if cls is None:
-            # for cla in classes:
-            #     obj = self.__session.query(classes[cla])
-            #     for itm in obj:
-            #         delattr(itm, '_sa_instance_state')
-            #         key = itm.__class__.__name__ + '.' + itm.id
-            #         dict_new[key] = itm
-            for k, v in classes.items():
-                query = self.__session.query(v).all()
-                for obj in query:
-                    delattr(obj, "_sa_instance_state")
-                    dict_new[obj.__class__.__name__ + "." + str(obj.id)] = obj
+
+        if cls is not None:
+            objects = self.__session.query(cls).all()
+            for obj in objects:
+                show[obj.to_dict()['__class__'] + '.' + obj.id] = obj
         else:
-            # for cla in classes:
-            #     if cla == cls:
-            #         obj = self.__session.query(classes[cla])
-            #         for itm in obj:
-            #             delattr(itm, '_sa_instance_state')
-            #             key = itm.__class__.__name__ + '.' + itm.id
-            #             dict_new[key] = itm
-            query = self.__session.query(cls).all()
-            for obj in query:
-                delattr(obj, "_sa_instance_state")
-                dict_new[obj.__class__.__name__ + "." + str(obj.id)] = obj
-        return dict_new
+            for clase, value in classes.items():
+                objects = self.__session.query(value).all()
+                for obj in objects:
+                    show[obj.to_dict()['__class__'] + '.' + obj.id] = obj
+        return show
+        # if cls is None:
+        #     for k, v in classes.items():
+        #         query = self.__session.query(v).all()
+        #         for obj in query:
+        #             #delattr(obj, "_sa_instance_state")
+        #             dict_new[obj.__class__.__name__ + "." + str(obj.id)] = obj
+        # else:
+        #     query = self.__session.query(cls).all()
+        #     for obj in query:
+        #         #delattr(obj, "_sa_instance_state")
+        #         dict_new[obj.__class__.__name__ + "." + str(obj.id)] = obj
+        # return dict_new
 
     def new(self, obj):
         """[summary]        """
