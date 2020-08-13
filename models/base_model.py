@@ -67,7 +67,6 @@ class BaseModel:
         dictionary.update({'__class__': self.__class__.__name__})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
-        print(dictionary)
         for key, value in dictionary.items():
             if key == '_sa_instance_state':
                 del dictionary[key]
