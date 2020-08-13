@@ -17,12 +17,6 @@ from models.amenity import Amenity
 from models.review import Review
 
 
-classes = {'State': State,
-           'City': City,
-           'User': User,
-           'Place': Place}
-
-
 class DBStorage:
     """return a dictionary
 
@@ -49,57 +43,55 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """[summary]
-
-        Args:
-            cls ([type], optional): [description]. Defaults to None.
-
-        Returns:
-            [type]: [description]
-        """
+        """[summary]"""
         dict_new = {}
+        classes = {
+            'State': State, 'City': City,
+            'Amenity': Amenity, 'User': User,
+            'Place': Place, 'Review': Review}
         if cls is None:
-            for cla in classes:
-                obj = self.__session.query(classes[cla])
-                for itm in obj:
-                    delattr(itm, '_sa_instance_state')
-                    key = itm.__class__.__name__ + '.' + itm.id
-                    dict_new[key] = itm
+            # for cla in classes:
+            #     obj = self.__session.query(classes[cla])
+            #     for itm in obj:
+            #         delattr(itm, '_sa_instance_state')
+            #         key = itm.__class__.__name__ + '.' + itm.id
+            #         dict_new[key] = itm
+            for k, v in classes.items():
+                query = self.__session.query(v).all()
+                for obj in query:
+                    delattr(obj, "_sa_instance_state")
+                    dict_new[obj.__class__.__name__ + "." + str(obj.id)] = obj
         else:
-            for cla in classes:
-                if cla == cls:
-                    obj = self.__session.query(classes[cla])
-                    for itm in obj:
-                        delattr(itm, '_sa_instance_state')
-                        key = itm.__class__.__name__ + '.' + itm.id
-                        dict_new[key] = itm
+            # for cla in classes:
+            #     if cla == cls:
+            #         obj = self.__session.query(classes[cla])
+            #         for itm in obj:
+            #             delattr(itm, '_sa_instance_state')
+            #             key = itm.__class__.__name__ + '.' + itm.id
+            #             dict_new[key] = itm
+            query = self.__session.query(cls).all()
+            for obj in query:
+                delattr(obj, "_sa_instance_state")
+                dict_new[obj.__class__.__name__ + "." + str(obj.id)] = obj
         return dict_new
 
     def new(self, obj):
-        """[summary]
-
-        Args:
-            obj ([type]): [description]
-        """
+        """[summary]        """
         self.__session.add(obj)
 
     def save(self):
-        """[summary]
-        """
+        """[summary]        """
         self.__session.commit()
 
     def delete(self, obj=None):
-        """[summary]
-
-        Args:
-            obj ([type], optional): [description]. Defaults to None.
-        """
-        if obj is None:
-            self.__session.detele(obj)
+        """[summary]        """
+        self.__session.detele(obj)
 
     def reload(self):
         """[summary]
         """
         Base.metadata.create_all(self.__engine)
-        session_weak = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        self.__session = scoped_session(session_weak)
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
+        self.__session = scoped_session(
+            session_factory)
