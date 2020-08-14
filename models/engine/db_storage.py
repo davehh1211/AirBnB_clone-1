@@ -1,8 +1,5 @@
 #!/usr/bin/python3
-"""[summary]
-
-Returns:
-    [type]: [description]
+"""Db engine to store in the database
 """
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -18,16 +15,14 @@ from models.review import Review
 
 
 class DBStorage:
-    """return a dictionary
-
-    Returns:
-    [type]: [description]
+    """this class is the engine to store
+    mysql database
     """
     __engine = None
     __session = None
 
     def __init__(self):
-        """[summary]
+        """initialization
         """
         USER = getenv('HBNB_MYSQL_USER')
         PASSWORD = getenv('HBNB_MYSQL_PWD')
@@ -43,7 +38,7 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """[summary]"""
+        """show the requested data from database"""
         show = {}
         classes = {
             'State': State, 'City': City,
@@ -60,33 +55,21 @@ class DBStorage:
                 for obj in objects:
                     show[obj.to_dict()['__class__'] + '.' + obj.id] = obj
         return show
-        # if cls is None:
-        #     for k, v in classes.items():
-        #         query = self.__session.query(v).all()
-        #         for obj in query:
-        #             #delattr(obj, "_sa_instance_state")
-        #             dict_new[obj.__class__.__name__ + "." + str(obj.id)] = obj
-        # else:
-        #     query = self.__session.query(cls).all()
-        #     for obj in query:
-        #         #delattr(obj, "_sa_instance_state")
-        #         dict_new[obj.__class__.__name__ + "." + str(obj.id)] = obj
-        # return dict_new
 
     def new(self, obj):
-        """[summary]        """
+        """add data to db"""
         self.__session.add(obj)
 
     def save(self):
-        """[summary]        """
+        """store the added data"""
         self.__session.commit()
 
     def delete(self, obj=None):
-        """[summary]        """
+        """remove data"""
         self.__session.detele(obj)
 
     def reload(self):
-        """[summary]
+        """create all reload data
         """
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
