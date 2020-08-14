@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Place Module for HBNB project """
+""" Place instance with a city_id, amenities and reviews """
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
 from models.base_model import BaseModel, Base
 from os import getenv

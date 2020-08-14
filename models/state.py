@@ -10,7 +10,7 @@ STORAGE = getenv("HBNB_TYPE_STORAGE")
 
 
 class State(BaseModel, Base):
-    """ State class """
+    """ State class for the states of a country """
     __tablename__ = 'states'
     if STORAGE == "db":
         name = Column(String(128), nullable=False)
