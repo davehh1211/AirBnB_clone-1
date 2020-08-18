@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Write a Bash script that sets up your web servers for the deployment of web_static
-apt-get -y update
-apt-get -y install nginx
+sudo apt-get -y update
+sudo apt-get -y install nginx
 ufw allow 'Nginx HTTP'
 sudo mkdir -p /data/web_static/releases/test/
 sudo mkdir -p /data/web_static/shared/
@@ -14,8 +14,8 @@ echo "<html>
     </body>
 </html>" > /data/web_static/releases/test/index.html
 
-ln -sf /data/web_static/releases/test/ /data/web_static/current
-chown -R ubuntu:ubuntu /data/
-sed -i "location /hbnb_static/ { alias /data/web_static/current/; }" /etc/nginx/sites-available/default
+sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
+sudo chown -R ubuntu:ubuntu /data/
+sudo sed -i "38i \\\\tlocation /hbnb_static/ {\n\t\talias //data/web_static/current/;\n\tautoindex off;\n\t}\n" /etc/nginx/sites-enabled/default
 
-service nginx restart
+sudo service nginx restart
