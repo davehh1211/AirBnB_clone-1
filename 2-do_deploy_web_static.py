@@ -19,8 +19,7 @@ def do_deploy(archive_path):
         # divide the path and get the name of the file
         archive_file = archive_path.split("/")[-1]
         # Remove the extension to the archive
-        folder_file = "/data/web_static/releases/" +
-        archive_file.split(".")[0]
+        folder_file = "/data/web_static/releases/" + archive_file.split(".")[0]
         # create the folder for the archive
         sudo("mkdir -p {:s}".format(folder_file))
         # Uncompress the archive to the folder
