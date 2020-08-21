@@ -57,11 +57,11 @@ def do_deploy(archive_path):
 
 
 def deploy():
-	"""deploy final deployment
+    """deploy final deployment
 
-	Returns:
-		[type]: [description]
-	"""
+    Returns:
+    [type]: [description]
+    """
     try:
         path_of_archive = do_pack()
         final_deploy = do_deploy(path_of_archive)
