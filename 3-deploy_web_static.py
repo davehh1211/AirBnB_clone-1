@@ -62,9 +62,9 @@ def deploy():
     Returns:
     [type]: [description]
     """
-    try:
-        path_of_archive = do_pack()
-        final_deploy = do_deploy(path_of_archive)
-        return final_deploy
-    except:
+    path_of_archive = do_pack()
+    if path_of_archive is None:
         return False
+    else:
+        final_deploy = path_of_archive.__dict__["command"].split(" ")[2]
+        return do_deploy(final_deploy)
