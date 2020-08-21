@@ -19,10 +19,11 @@ def do_deploy(archive_path):
         # divide the path and get the name of the file
         archive_file = archive_path.split("/")[-1]
         # Remove the extension to the archive
-        folder_file = "/data/web_static/releases/" + archive_file.split(".")[0]
+        folder_file = "/data/web_static/releases/" +
+        archive_file.split(".")[0]
         # create the folder for the archive
         sudo("mkdir -p {:s}".format(folder_file))
-        # Uncompress the archive to the folder /data/web_static/releases/<archive filename without extension> on the web server
+        # Uncompress the archive to the folder
         sudo("tar -xzf /tmp/{:s} -C {:s}".format(archive_file, folder_file))
         # delete the archive from the web server in tmp
         sudo("rm /tmp/{:s}".format(archive_file))
