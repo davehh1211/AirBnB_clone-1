@@ -24,8 +24,8 @@ def cdisplay(text):
     return 'C ' + text.replace('_', ' ')
 
 
-@app.route('/python/(<text>)', strict_slashes=False)
-@app.route('/python/', strict_slashes=False)
+@app.route('/python/<text>', strict_slashes=False)
+@app.route('/python', strict_slashes=False)
 def pythonfun(text='is cool'):
     """[summary]
     Args:
